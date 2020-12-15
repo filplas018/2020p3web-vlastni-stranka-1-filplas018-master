@@ -1,17 +1,21 @@
-﻿using MailKit.Net.Smtp;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
+using MailKit.Net.Smtp;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Security;
+using System.Threading;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Util.Store;
-using MailKit.Net.Imap;
+using Google.Apis.Util;
 
 namespace P3_app_plass.Services
 {
-    public class EmailSender: IEmailSender
+    public class EmailSender : IEmailSender
     {
         public string HtmlMessage { get; set; }
         public IConfiguration Configuration { get; protected set; }
@@ -28,38 +32,6 @@ namespace P3_app_plass.Services
         /// <returns>nic</returns>
         public Task SendEmailAsync(string email, string subject, string text)
         {
-            const string GMailAccount = "filipplass@gmail.com";
-
-            var clientSecrets = new ClientSecrets
-            {
-                ClientId = "54201618851-2ec97ipr0dr71kd33rqcq0a40guoqu34.apps.googleusercontent.com",
-                ClientSecret = "zyvgZsXTiC9RVwuHXJIoIGQP"
-            };
-
-            var codeFlow = new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
-            {
-                DataStore = new FileDataStore("CredentialCacheFolder", false),
-                Scopes = new[] { "https://mail.google.com/" },
-                ClientSecrets = clientSecrets
-            });
-
-            // Note: For a web app, you'll want to use AuthorizationCodeWebApp instead.
-            var codeReceiver = new LocalServerCodeReceiver();
-            var authCode = new AuthorizationCodeInstalledApp(codeFlow, codeReceiver);
-
-            var credential = await authCode.AuthorizeAsync(GMailAccount, CancellationToken.None);
-
-            if (credential.Token.IsExpired(SystemClock.Default))
-                await credential.RefreshTokenAsync(CancellationToken.None);
-
-            var oauth2 = new SaslMechanismOAuth2(credential.UserId, credential.Token.AccessToken);
-
-            using (var client = new ImapClient())
-            {
-                await client.ConnectAsync("imap.gmail.com", 993, SecureSocketOptions.SslOnConnect);
-                await client.AuthenticateAsync(oauth2);
-                await client.DisconnectAsync(true);
-            }
             var message = new MimeMessage(); // vytvoření mailové zprávy
             message.From.Add(new MailboxAddress(Configuration["EmailSender:FromName"], Configuration["EmailSender:From"]));
             message.To.Add(new MailboxAddress(email, email));

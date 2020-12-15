@@ -4,7 +4,42 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to My eGarage</h1>
+  <p class="lead">This is your personal car diary where you can organize cars into garages and properly manage them.</p>
+  <hr class="my-4">
+  <p>It is a new app for every car guy.</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" asp-area="" asp-page="/Account/Register" role="button">Get Started</a>
+  </p>
 </div>
+<div class="text-center">
+    <h2>Anonymous random show car</h2>
+    <table class="table">
+        <tr>
+            <th>
+                Brand
+            </th>
+            <th>
+                Model
+            </th>
+            <th>
+                Description from owner
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Model.Rveh.Brand
+            </td>
+            <td>
+                @Model.Rveh.Model
+            </td>
+            <td>
+                @Model.Rveh.Description
+            </td>
+        </tr>
+    </table>
+    <p>Not your taste? Build your own garage <a asp-area="" asp-page="/CreateGarage">here</a>!</p>
+</div>
+
+
