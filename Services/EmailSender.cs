@@ -40,6 +40,7 @@ namespace P3_app_plass.Services
             if (HtmlMessage != "") bodyBuilder.HtmlBody = HtmlMessage; // pokud máme HTML zprávu, tak ji připojíme
             bodyBuilder.TextBody = text;
             bodyBuilder.HtmlBody = text;
+
             message.Body = bodyBuilder.ToMessageBody();
             Int32.TryParse(Configuration["EmailSender:Port"], out int port); // v konfiguraci je port uveden jako text, potřebujeme ho jako číslo
             using (var client = new SmtpClient())
