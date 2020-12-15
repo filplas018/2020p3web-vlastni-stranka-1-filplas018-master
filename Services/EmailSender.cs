@@ -39,6 +39,7 @@ namespace P3_app_plass.Services
             var bodyBuilder = new BodyBuilder();
             if (HtmlMessage != "") bodyBuilder.HtmlBody = HtmlMessage; // pokud máme HTML zprávu, tak ji připojíme
             bodyBuilder.TextBody = text;
+
             bodyBuilder.HtmlBody = text;
 
             message.Body = bodyBuilder.ToMessageBody();
