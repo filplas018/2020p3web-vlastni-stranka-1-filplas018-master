@@ -1,0 +1,48 @@
+﻿@page
+@model P3_app_plass.Pages.DetailGarageModel
+
+@{
+    ViewData["Title"] = "DetailGarage";
+}
+
+<h1>DetailGarage</h1>
+
+<div>
+    <h4>Garage</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Garage.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Garage.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Garage.User)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Garage.User.UserName)
+        </dd>
+        <dt class="col-sm-3 mt-4 mb-1 pink-text">
+            Name
+        </dt>
+        <dt class="col-sm-3 mt-4 mb-1 pink-text">
+            Model
+        </dt>
+        <dt style="text-align: left" class="col-sm-6 mt-4 mb-1 pink-text">
+            Description
+        </dt>
+        @foreach (var item in Model.Garage.Vehicles)
+        {
+
+                    <dd class="col-sm-3 border-bottom pb-2">@item.Brand</dd>
+                    <dd class="col-sm-3 border-bottom pb-2">@item.Model</dd>
+                    <dd class="col-sm-3 border-bottom pb-2">@item.Description</dd>
+                    <dd class="col-sm-3 border-bottom pb-2"><a asp-page="./DeleteCar" asp-route-Pid="@Model.Garage.Id." asp-route-id="@item.Id">Delete</a></dd>
+         }
+    </dl>
+</div>
+<div>
+    <a asp-page="./CreateCar" asp-route-Gid="@Model.Garage.Id">Park new car</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
